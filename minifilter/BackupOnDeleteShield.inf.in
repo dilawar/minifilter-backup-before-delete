@@ -1,0 +1,95 @@
+;;;
+;;; BackupOnDeleteShield
+;;;
+;;; %DriverName%.inf.in is used to generate %DriverName%.inf file.
+;;;
+;;; Copyright (c) 2024 - , Dilawar Singh
+;;;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Provider    = Dilawar Singh
+DriverName  = @PROJECT_NAME@
+DriverVer   = @DRIVER_VERSION@
+Class       = "ActivityMonitor"
+ClassGuid   = {b86dff51-a31e-4bac-b3cf-e8cfe75c9fc2}
+PnPLockdown = 1
+CatalogFile = %DriverName%.cat
+
+[DestinationDirs]
+DefaultDestDir         = 12
+MiniFilter.DriverFiles = 12  ; %windir%\system32\drivers
+
+
+;;
+;; Default install section
+;;
+
+[DefaultInstall]
+OptionDesc = %ServiceDesc%
+CopyFiles  = MiniFilter.DriverFiles
+
+[DefaultInstall.Services]
+AddService = %ServiceName%,,MiniFilter.Service
+
+[MiniFilter.Service]
+DisplayName    = %ServiceName%
+Description    = %ServiceDesc%
+ServiceBinary  = %12%\%DriverName%.sys
+Dependencies   = "FltMgr"    ;  available by default
+ServiceType    = 2 ; SERVICE_FILE_SYSTEM_DRIVER
+StartType      = 1 ; SERVICE_SYSTEM_START
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+LoadOrderGroup = "FSFilter Top"
+AddReg         = MiniFilter.AddRegistry
+
+;;
+;; Default uninstall
+;; NOTE: This may not be present in new primitive drivers. See
+;; https://docs.microsoft.com/en-us/windows-hardware/drivers/develop/creating-a-primitive-driver#legacy-compatibility
+
+[DefaultUninstall]
+DelFiles   = MiniFilter.DriverFiles
+
+[DefaultUninstall.Services]
+DelService     = %ServiceName%,0x200
+
+
+;
+; Registry modification.
+;
+[MiniFilter.AddRegistry]
+HKR,,"DebugFlags",0x00010001,0x0
+HKR,,"SupportedFeatures",0x00010001,0x3
+HKR,"Instances","DefaultInstance",0x00000000,%DefaultInstance%
+HKR,"Instances\"%Instance1.Name%,"Altitude",0x00000000,%Instance1.Altitude%
+HKR,"Instances\"%Instance1.Name%,"Flags",0x00010001,%Instance1.Flags%
+
+;
+; Copy files
+;
+
+[MiniFilter.DriverFiles]
+%DriverName%.sys
+
+[SourceDisksFiles]
+@PROJECT_NAME@.sys = 1,,
+
+[SourceDisksNames]
+1 = %DiskName%,,,
+
+;;
+;; String Section
+;;
+
+[Strings]
+DriverName              = "@PROJECT_NAME@"
+ServiceName             = "BackupOnDeleteShield"
+ServiceDesc             = "BackupOnDelete File Protection"
+DiskName                = "%DriverName% Installation Disk"
+
+; Instances specific information
+DefaultInstance    = "Shield Instance"
+Instance1.Name     = "Shield Instance"
+Instance1.Altitude = "370150"
+Instance1.Flags    = 0x0
