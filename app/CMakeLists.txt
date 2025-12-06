@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.21)
+cmake_policy(SET CMP0167 OLD)
 
 project(APP LANGUAGES CXX)
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
 
 #
@@ -39,7 +39,7 @@ message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
 
 include(FetchContent)
 
-# plog and fmt for formatting and logging. 
+# plog and fmt for formatting and logging.
 FetchContent_Declare(plog GIT_REPOSITORY https://github.com/SergiusTheBest/plog
     GIT_TAG 1.1.5)
 FetchContent_Declare(fmt GIT_REPOSITORY https://github.com/fmtlib/fmt
@@ -53,7 +53,7 @@ include_directories(${plog_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(ENABLE_TESTS)
-    # doctest for testing. 
+    # doctest for testing.
     FetchContent_Declare(doctest GIT_REPOSITORY https://github.com/onqtam/doctest
         GIT_TAG 2.4.6)
     FetchContent_MakeAvailable(doctest)
