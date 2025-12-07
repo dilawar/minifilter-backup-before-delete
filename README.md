@@ -1,5 +1,7 @@
 # Backup on Delete
 
+[Blog Post](https://dilawars.notion.site/BackupOnDelete-A-windows-kernel-minifilter-and-user-space-app-2c2e579bff89802497dfe44c6b77e744?pvs=74)
+
 This repository contains two major components:
 
 - `minifilter` directory contains a minifilter that intercepts the delete file
