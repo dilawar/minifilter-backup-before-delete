@@ -16,5 +16,5 @@ jobs:
 
     - name: Build app and minifilter
       run: |
-        choco install -y cmake nsis windowsdriverkit10 boost-msvc-14.3
+        choco install -y cmake nsis windowsdriverkit10 boost-msvc-14.3 windows-sdk-10.0
         bash build.sh 
